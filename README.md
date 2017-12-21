@@ -19,6 +19,7 @@ The Server side is built using Java 8,Spring Rest. This repository is CI (contin
      2. website  - (eg: www.github.com)
      
         syntax   : https://webpagecrawler.herokuapp.com/{protocol}/{website}/
+        
         example  : https://webpagecrawler.herokuapp.com/http/www.moneycontrol.com/
 
 ##### Run locally
@@ -42,6 +43,7 @@ Running the application locally involves the below steps:
         1. Clone or download the sourcecode from 
         
         2. Using Eclipse/STS(Spring Tool Suite) import the project in below order:
+            
             File -> Import -> Maven -> Existing Maven Projects.
             
         3. In the package explorer, rightclick the project and select RunAs -> Spring Boot application.
@@ -75,12 +77,19 @@ Based on the test results status the code is deployed on online cloud compute se
 ### Scope for future enhancement
 
     * Provision to select the list of elements to be crawled. eg:link/images,videos,audios etc.
+    
     * Tab based user interface for listing content type Links/Images/videos.
+    
     * Dynamic index level.
+    
     * Option to enable/disable crawl external Url's(other domain).
+    
     * Multiple output format's. eg: xml,plain text,etc.
+    
     * Export to file formats like xlsx,csv,etc.
+    
     * Recently accessed Url's can be shown, based on visitors IP address.
+    
     * Parallel Processing can be applied to speedup the turn around time.
 
 
