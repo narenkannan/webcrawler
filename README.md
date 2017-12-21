@@ -11,7 +11,7 @@ This Angular application is built using an online(SAAS) IDE named [plunkr](https
 
 https://plnkr.co/edit/hUb64vBq9feTFhlMR8Ng
 
-The Server side is built using Java 8,Spring Rest. This repository is CI (continiously integration) using [Travis CI](https://travis-ci.org/), so any changes to this repository will be immediately compiled,tested by Travis & published in Heroku cloud environment. 
+The Server side is built using Java 8,Spring Rest. This repository is CI (continiously integration) using [Travis CI](https://travis-ci.org/), so any changes to this repository will be immediately compiled,tested by Travis & published in [Heroku](https://dashboard.heroku.com/apps/webpagecrawler) cloud environment. 
 
 ##### This application takes 2 arguments:
      1. Protocol - (http,https)
@@ -71,6 +71,8 @@ Once Travis compiles the source code and executes the tests. Once all the tests 
 
 ### Continious Deployment 
 ![Heroku](https://images.iwantmyname.com/apps/images/logo-developer-heroku.png)
+
+Heroku Page : [Heroku](https://dashboard.heroku.com/apps/webpagecrawler)
 
 Based on the test results status the code is deployed on online cloud compute service called [Heroku](https://www.heroku.com/). Heroku pulls the latest change & based on the project setup it uses pre configured strategy or dynos to run the application. Currently the application is configured using free licence of Heroku service.
 
