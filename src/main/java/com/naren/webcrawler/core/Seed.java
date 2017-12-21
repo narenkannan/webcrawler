@@ -48,7 +48,7 @@ public class Seed {
 
 	private boolean validateSameDomain(String url) {
 		try {
-			return new URL(url).getHost().substring(beginIndex).equalsIgnoreCase(new URL(sharedService.getDomain().toString()).getHost());
+			return new URL(url).getHost().equalsIgnoreCase(new URL(sharedService.getDomain().toString()).getHost());
 		} catch (MalformedURLException e) {
 			System.out.println(url + " - " + e.getMessage());
 			return false;
