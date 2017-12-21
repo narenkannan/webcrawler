@@ -38,13 +38,6 @@ public class WebcrawlerApplication extends WebMvcConfigurerAdapter {
 	@Autowired
 	SharedService sharedService;
 
-	static {
-		System.setProperty("http.proxyHost", "10.100.1.124");
-		System.setProperty("http.proxyPort", "3128");
-		System.setProperty("https.proxyHost", "10.100.1.124");
-		System.setProperty("https.proxyPort", "3128");
-	}
-
 	@Override
 	public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
 		GsonHttpMessageConverter msgConverter = new GsonHttpMessageConverter();
