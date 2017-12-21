@@ -48,9 +48,9 @@ public class Seed {
 
 	private boolean validateSameDomain(String url) {
 		try {
-			return new URL(url).getHost().equalsIgnoreCase(new URL(sharedService.getDomain().toString()).getHost());
+			return new URL(url).getHost().substring(beginIndex).equalsIgnoreCase(new URL(sharedService.getDomain().toString()).getHost());
 		} catch (MalformedURLException e) {
-			e.printStackTrace();
+			System.out.println(url + " - " + e.getMessage());
 			return false;
 		}
 	}
@@ -71,7 +71,8 @@ public class Seed {
 				sharedService.result.put(url, resources);
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println(url + " - " + e.getMessage());
+			sharedService.result.put(url, new HashSet<>());
 		}
 		return links;
 	}
@@ -80,7 +81,8 @@ public class Seed {
 		try {
 			crawl(url).stream().forEach(link -> this.frontTier(link));
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println(url + " - " + e.getMessage());
+			sharedService.result.put(url, null);
 		}
 		return sharedService;
 	}
