@@ -13,15 +13,20 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 import org.apache.commons.validator.routines.UrlValidator;
+import org.apache.log4j.LogManager;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Component
+@Scope("prototype")
 public class Seed {
 
 	private String baseUrl;
+
+	private static final org.apache.log4j.Logger logger = LogManager.getLogger(Webcrawler.class);
 
 	Document document;
 
@@ -51,7 +56,7 @@ public class Seed {
 		try {
 			return new URL(url).getHost().equalsIgnoreCase(new URL(baseUrl.toString()).getHost());
 		} catch (MalformedURLException e) {
-			System.out.println(url + " - " + e.getMessage());
+			logger.debug(url + " - " + e.getMessage());
 			return false;
 		}
 	}
@@ -71,7 +76,7 @@ public class Seed {
 				result.put(url, resources);
 			}
 		} catch (IOException e) {
-			System.out.println(url + " - " + e.getMessage());
+			logger.debug(url + " - " + e.getMessage());
 			result.put(url, new HashSet<>());
 		}
 		return links;
@@ -82,7 +87,7 @@ public class Seed {
 		try {
 			crawlFront(url).parallelStream().forEach(link -> this.frontTier(link));
 		} catch (IOException e) {
-			System.out.println(url + " - " + e.getMessage());
+			logger.debug(url + " - " + e.getMessage());
 			result.put(url, null);
 		}
 		return result;

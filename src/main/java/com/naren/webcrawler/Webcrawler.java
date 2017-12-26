@@ -16,10 +16,12 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.LogManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.GsonHttpMessageConverter;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,10 +37,13 @@ import com.google.gson.GsonBuilder;
 @Configuration
 @RestController
 @SpringBootApplication
+@Scope("prototype")
 public class Webcrawler extends WebMvcConfigurerAdapter implements Filter {
 
 	@Autowired
 	Seed seed;
+
+	private static final org.apache.log4j.Logger logger = LogManager.getLogger(Webcrawler.class);
 
 	public static void main(String[] args) {
 		SpringApplication.run(Webcrawler.class, args);
@@ -65,6 +70,11 @@ public class Webcrawler extends WebMvcConfigurerAdapter implements Filter {
 	}
 
 	@Override
+	public void destroy() {
+
+	}
+
+	@Override
 	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
 			throws IOException, ServletException {
 		HttpServletRequest request = (HttpServletRequest) req;
@@ -80,11 +90,6 @@ public class Webcrawler extends WebMvcConfigurerAdapter implements Filter {
 		} else {
 			chain.doFilter(req, res);
 		}
-	}
-
-	@Override
-	public void destroy() {
-
 	}
 
 }
