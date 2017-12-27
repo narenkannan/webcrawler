@@ -25,7 +25,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.GsonHttpMessageConverter;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -47,6 +49,17 @@ public class Webcrawler extends WebMvcConfigurerAdapter implements Filter {
 
 	public static void main(String[] args) {
 		SpringApplication.run(Webcrawler.class, args);
+	}
+
+	@RequestMapping("/")
+	public String crawl() throws IOException, URISyntaxException {
+		return "success";
+	}
+
+	@RequestMapping(value = "/", method = RequestMethod.POST)
+	public Map<String, Set<String>> crawl(@RequestBody String url) throws IOException, URISyntaxException {
+		URL domainUrl = new URL(url);
+		return seed.crawl(domainUrl.toString());
 	}
 
 	@RequestMapping("/{protocol}/{url}")
