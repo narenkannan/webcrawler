@@ -3,6 +3,7 @@ package com.naren.webcrawler;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -22,12 +23,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
+import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.GsonHttpMessageConverter;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -42,6 +44,10 @@ import com.google.gson.GsonBuilder;
 @Scope("prototype")
 public class Webcrawler extends WebMvcConfigurerAdapter implements Filter {
 
+	 public static final MediaType TEXT_PLAIN_UTF8 = new MediaType(MediaType.TEXT_PLAIN.getType(), MediaType.TEXT_PLAIN.getSubtype(),
+				Charset.forName("utf8"));
+
+	
 	@Autowired
 	Seed seed;
 
@@ -51,13 +57,14 @@ public class Webcrawler extends WebMvcConfigurerAdapter implements Filter {
 		SpringApplication.run(Webcrawler.class, args);
 	}
 
-	@RequestMapping("/")
+	@RequestMapping(value="/", method = RequestMethod.GET)
 	public String crawl() throws IOException, URISyntaxException {
 		return "success";
 	}
 
 	@RequestMapping(value = "/", method = RequestMethod.POST)
-	public Map<String, Set<String>> crawl(@RequestBody String url) throws IOException, URISyntaxException {
+	public Map<String, Set<String>> crawl(@RequestParam("url") String url) throws IOException, URISyntaxException {
+		System.out.println(url);
 		URL domainUrl = new URL(url);
 		return seed.crawl(domainUrl.toString());
 	}
@@ -104,5 +111,4 @@ public class Webcrawler extends WebMvcConfigurerAdapter implements Filter {
 			chain.doFilter(req, res);
 		}
 	}
-
 }
