@@ -16,7 +16,6 @@ import org.apache.commons.validator.routines.UrlValidator;
 import org.apache.log4j.LogManager;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -45,8 +44,8 @@ public class Seed {
 	}
 
 	public Set<String> readLinks() {
-		links = document.select("a[href]").parallelStream().map(e -> relativeUrlCheck(e.attr("href")))
-				.collect(Collectors.toSet());
+		links = document.select("a[href]").parallelStream().filter(e -> new UrlValidator().isValid(e.attr("href")))
+				.map(e -> relativeUrlCheck(e.attr("href"))).collect(Collectors.toSet());
 		return links;
 	}
 

@@ -44,10 +44,6 @@ import com.google.gson.GsonBuilder;
 @Scope("prototype")
 public class Webcrawler extends WebMvcConfigurerAdapter implements Filter {
 
-	 public static final MediaType TEXT_PLAIN_UTF8 = new MediaType(MediaType.TEXT_PLAIN.getType(), MediaType.TEXT_PLAIN.getSubtype(),
-				Charset.forName("utf8"));
-
-	
 	@Autowired
 	Seed seed;
 
