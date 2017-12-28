@@ -12,11 +12,9 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
-import org.apache.commons.validator.routines.UrlValidator;
 import org.apache.log4j.LogManager;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -40,12 +38,12 @@ public class Seed {
 	private Set<String> links = new HashSet<>();
 
 	public Set<String> readAssets() {
-		return document.select("img[src~=(?i)\\.(png|jpe?g|gif)]").parallelStream()
+		return document.select("img[src~=(?i)\\.(png|jpe?g|gif)]").stream()
 				.map(e -> relativeUrlCheck(e.attr("src"))).collect(Collectors.toSet());
 	}
 
 	public Set<String> readLinks() {
-		links = document.select("a[href]").parallelStream().map(e -> relativeUrlCheck(e.attr("href")))
+		links = document.select("a[href]").stream().map(e -> relativeUrlCheck(e.attr("href")))
 				.collect(Collectors.toSet());
 		return links;
 	}
@@ -87,7 +85,7 @@ public class Seed {
 	Map<String, Set<String>> crawl(String url) {
 		baseUrl = url;
 		try {
-			crawlFront(url).parallelStream().forEach(link -> this.frontTier(link));
+			crawlFront(url).stream().forEach(link -> this.frontTier(link));
 		} catch (IOException e) {
 			logger.debug(url + " - " + e.getMessage());
 			result.put(url, null);
