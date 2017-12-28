@@ -24,6 +24,7 @@ import org.springframework.stereotype.Component;
 @Scope("prototype")
 public class Seed {
 
+
 	private String baseUrl;
 
 	private static final org.apache.log4j.Logger logger = LogManager.getLogger(Webcrawler.class);
@@ -39,12 +40,13 @@ public class Seed {
 	private Set<String> links = new HashSet<>();
 
 	public Set<String> readAssets() {
-		return document.select("[src]").parallelStream().map(Element::text).collect(Collectors.toSet());
+		return document.select("img[src~=(?i)\\.(png|jpe?g|gif)]").parallelStream()
+				.map(e -> relativeUrlCheck(e.attr("src"))).collect(Collectors.toSet());
 	}
 
 	public Set<String> readLinks() {
-		links = document.select("a[href]").parallelStream().filter(e -> new UrlValidator().isValid(e.attr("href")))
-				.map(e -> relativeUrlCheck(e.attr("href"))).collect(Collectors.toSet());
+		links = document.select("a[href]").parallelStream().map(e -> relativeUrlCheck(e.attr("href")))
+				.collect(Collectors.toSet());
 		return links;
 	}
 
